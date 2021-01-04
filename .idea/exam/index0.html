@@ -1,0 +1,83 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, iniitial-scale=1.0">
+    <title>Vue Instance Lifecylce</title>
+</head>
+
+<body>
+<div id="app1">
+    <header>
+        <h3>첫 번째 인스턴스 영역</h3>
+    </header>
+    <todo-footer></todo-footer>
+    <todo-list></todo-list>
+
+    <my-global-component></my-global-component>
+    <local-component></local-component>
+</div>
+<hr>
+
+<div id="app2">
+    <h3>두 번째 인스턴스 영역</h3>
+    <my-global-component></my-global-component>
+    <local-component></local-component>
+    <todo-footer></todo-footer>
+    <todo-list></todo-list>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue@2.5.2/dist/vue.js"></script>
+<script>
+    Vue.component('my-global-component', {
+        template: '<div>전역 컴포넌트입니다.</div>'
+    });
+
+    Vue.component('todo-footer', {
+        template: '<p>This is another global child component</p>'
+    });
+    var local = {
+        template: '<div>지역 컴포넌트입니다.</div>'
+    };
+    var todo_list = {
+        template: '<p>This is another local child component</p>'
+    };
+    new Vue({
+        el: '#app1',
+        components: {
+            'local-component': local,
+            'todo-list': todo_list
+        },
+        beforeCreate: function () {
+            console.log("beforeCreate");
+        },
+        created: function () {
+            console.log("created");
+        },
+        mounted: function () {
+            console.log("mounted");
+            this.message = 'Hello Vue.js message updated!!';
+        },
+        beforeUpdate: function () {
+            console.log("beforeUpdate");
+        },
+        updated: function () {
+            console.log("updated");
+        }
+
+
+    });
+
+
+    new Vue({
+        el: '#app2',
+        components: {
+            'todo-list': todo_list
+        }
+
+    });
+</script>
+</body>
+
+</html>
